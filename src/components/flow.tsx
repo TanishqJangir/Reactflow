@@ -1,6 +1,6 @@
 "use client"
 
-import {ReactFlow, Background, Controls, applyEdgeChanges, applyNodeChanges, addEdge, MiniMap } from "@xyflow/react";
+import {ReactFlow, Background, Controls, applyEdgeChanges, applyNodeChanges, addEdge, MiniMap, Handle, Position } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useState, useCallback } from "react"; 
 
@@ -31,14 +31,12 @@ import { useState, useCallback } from "react";
         id : 'n1-n2',
         source : 'n1',
         target : 'n2',
-        label : 'connects with'
     },
     {
         id:'n1-n3',
         source : "n1",
         target: 'n3',
         animated: true,
-        label:"what the hack"
     }
  ]
 
@@ -59,16 +57,17 @@ import { useState, useCallback } from "react";
     const onChange = useCallback((evt: any)=> {console.log(evt.target.value);},[]);
 
     return (
-        <div className="text-updater-node px-4 py-2 rounded-md border bg-red-200 w-auto">
+        <div className="relative rounded-md border bg-red-200 px-4 py-2 shadow-sm">
+            <Handle type="target" position={Position.Top} />
+            <Handle type="source" position={Position.Left} />
             <div>
-                <label htmlFor="text">Text:</label>
-                <input id="text" name="text" onChange={onChange} className="nodrag" />
+                <label htmlFor="text" className="font-bold">Text</label> <br/>
+                <input id="text" name="text" onChange={onChange} className="nodrag mt-1 w-full rounded border border-black/30 bg-white px-2 py-1 text-sm outline-none" placeholder="Enter Text here" />
             </div>
         </div>
     )
  }
 
- 
 
  const nodeType = {
     textUpdater : TextUpdaterNode,
@@ -105,7 +104,7 @@ export default function Flow(){
             nodes={nodes} 
             edges={edges} 
             nodeTypes={nodeType}
-            onNodesChange={onNodesChange} 
+            onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
             style={rfStyle}
